@@ -1,5 +1,16 @@
 NAME="sugar-Paint"
-VERSION=56
+VERSION=60
 RELEASE=1
 SUGAR_TYPE="Honey"
 inherit sugar
+
+PATCH_URI="60-compile-blob.patch"
+
+# prebuilt blobs for other arches
+DISTCLEANFILES="fill/*.o fill/*/*.*"
+
+src_compile() {
+	cd ${S}/fill
+	cygmake LIB_DIR=cygwin-${ARCH}-${PYTHON_VERSION}
+	rm -f *.o
+}

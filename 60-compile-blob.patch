@@ -1,0 +1,22 @@
+--- origsrc/Paint-60/fill/Makefile	2012-10-25 12:02:48.000000000 -0500
++++ src/Paint-60/fill/Makefile	2013-08-02 15:31:19.830156500 -0500
+@@ -50,15 +50,14 @@ ARCH = $(shell if [ -z "$(shell arch | g
+ PYTHON_VERSION = $(shell python -c 'import sys; print "%d%d" % sys.version_info[0:2]')
+ LIB_DIR = $(ARCH)_$(PYTHON_VERSION)
+ 
+-all: _fill.so
++all: _fill.dll
+ 	rm -rf $(LIB_DIR)
+ 	mkdir $(LIB_DIR)
+-	strip -s _fill.so
+-	mv _fill.so $(LIB_DIR)/
++	mv _fill.dll $(LIB_DIR)/
+ 	touch $(LIB_DIR)/__init__.py
+ 
+-_fill.so: fill.o eggfill.o fillmodule.o
+-	$(LD) $(LDFLAGS) -shared $^ -o $@
++_fill.dll: fill.o eggfill.o fillmodule.o
++	$(CC) -shared $^ -o $@ $(LDFLAGS)
+ 
+ #DEFS=`pkg-config --variable=defsdir pygtk-2.0`
+ # Generate the C wrapper
